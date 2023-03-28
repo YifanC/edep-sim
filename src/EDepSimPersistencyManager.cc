@@ -141,6 +141,14 @@ void EDepSim::PersistencyManager::UpdateSummaries(const G4Event* event) {
     EDepSimLog("Event Summary for run " << fEventSummary.RunId
                << " event " << fEventSummary.EventId);
 
+    if (GetRequireEventsWithHits()) {
+        G4HCofThisEvent* hitCollections = event->GetHCofThisEvent();
+        if (!hitCollections || hitCollections->GetNumberOfCollections() == 0) {
+            EDepSimLog("   No hits and /edep/db/set/requireEventsWithHits is true");
+            return;
+        }
+    }
+
     // Summarize the trajectories first so that fTrackIdMap is filled.
     MarkTrajectories(event);
 
