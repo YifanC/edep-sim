@@ -144,7 +144,7 @@ static bool EventHasHits(const G4Event* event)
     return false;
 }
 
-void EDepSim::PersistencyManager::UpdateSummaries(const G4Event* event) {
+bool EDepSim::PersistencyManager::UpdateSummaries(const G4Event* event) {
 
     const G4Run* runInfo = G4RunManager::GetRunManager()->GetCurrentRun();
 
@@ -155,7 +155,7 @@ void EDepSim::PersistencyManager::UpdateSummaries(const G4Event* event) {
 
     if (GetRequireEventsWithHits() && not EventHasHits(event)) {
         EDepSimLog("   No hits and /edep/db/set/requireEventsWithHits is true");
-        return;
+        return false;
     }
 
     // Summarize the trajectories first so that fTrackIdMap is filled.
@@ -170,6 +170,8 @@ void EDepSim::PersistencyManager::UpdateSummaries(const G4Event* event) {
     SummarizeSegmentDetectors(fEventSummary.SegmentDetectors, event);
     EDepSimLog("   Segment Detectors "
                << fEventSummary.SegmentDetectors.size());
+
+    return true;
 }
 
 void EDepSim::PersistencyManager::SummarizePrimaries(

@@ -211,7 +211,7 @@ protected:
     }
 
     /// Update the event summary fields.
-    void UpdateSummaries(const G4Event* event);
+    bool UpdateSummaries(const G4Event* event);
 
     /// A summary of the primary vertices in the event.
     TG4Event fEventSummary;
