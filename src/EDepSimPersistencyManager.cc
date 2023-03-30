@@ -132,6 +132,18 @@ bool EDepSim::PersistencyManager::SaveTrajectoryBoundary(G4VTrajectory* g4Traj,
     return false;
 }
 
+static bool EventHasHits(const G4Event* event)
+{
+    G4HCofThisEvent* hitCollections = event->GetHCofThisEvent();
+    if (!hitCollections) return false;
+    for (int i=0; i < hitCollections->GetNumberOfCollections(); ++i) {
+        G4VHitsCollection* g4Hits = hitCollections->GetHC(i);
+        if (g4Hits->GetSize() > 0)
+            return true;
+    }
+    return false;
+}
+
 void EDepSim::PersistencyManager::UpdateSummaries(const G4Event* event) {
 
     const G4Run* runInfo = G4RunManager::GetRunManager()->GetCurrentRun();
@@ -141,12 +153,9 @@ void EDepSim::PersistencyManager::UpdateSummaries(const G4Event* event) {
     EDepSimLog("Event Summary for run " << fEventSummary.RunId
                << " event " << fEventSummary.EventId);
 
-    if (GetRequireEventsWithHits()) {
-        G4HCofThisEvent* hitCollections = event->GetHCofThisEvent();
-        if (!hitCollections || hitCollections->GetNumberOfCollections() == 0) {
-            EDepSimLog("   No hits and /edep/db/set/requireEventsWithHits is true");
-            return;
-        }
+    if (GetRequireEventsWithHits() && not EventHasHits(event)) {
+        EDepSimLog("   No hits and /edep/db/set/requireEventsWithHits is true");
+        return;
     }
 
     // Summarize the trajectories first so that fTrackIdMap is filled.
