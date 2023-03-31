@@ -51,6 +51,7 @@
 /// = 1 and the (N_1 + i)'th entry when X = 2. There is no limit to the
 /// number of input trees.
 namespace EDepSim {class KinemPassThrough;}
+namespace EDepSim {class RooTrackerKinematicsGenerator;}
 class EDepSim::KinemPassThrough {
 public:
     /// for relating input tree pointers to the input file.

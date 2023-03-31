@@ -93,9 +93,10 @@ bool EDepSim::RootPersistencyManager::Store(const G4Event* anEvent) {
         fOutput->cd();
         fEventTree->Fill();
 
-        auto genAction = dynamic_cast<const EDepSim::UserPrimaryGeneratorAction*>( G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
+        auto genAction = dynamic_cast<const EDepSim::UserPrimaryGeneratorAction*>(
+            G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
 
-        for (size_t i = 0; i < genAction->GetGeneratorCount(); ++i) {
+        for (int i = 0; i < genAction->GetGeneratorCount(); ++i) {
             auto gen = dynamic_cast<const EDepSim::PrimaryGenerator*>(
                 genAction->GetGenerator(i));
             auto vkinGen = const_cast<EDepSim::VKinematicsGenerator*>(
