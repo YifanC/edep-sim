@@ -69,9 +69,8 @@ public:
                       const char * inputFileName, 
                       const char* generatorName);
 
-    ///  Copy the i'th entry from segment of the TChain corresponding to the
-    ///  input tree pointed at (in detsim) by inputTreePtr.
-    bool AddEntry(const TTree * inputTreePtr, const int origEntry);
+    ///  Copy the current entry of the generator tree
+    bool AddEntry(EDepSim::RooTrackerKinematicsGenerator *kinGen, int outEventId);
 
     ///  Return the position (entry number) that the most recent entry to be
     ///  copied to the pass-through tree will have.
