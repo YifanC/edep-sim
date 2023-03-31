@@ -146,5 +146,9 @@ private:
     /// Used to fill input file list tree "nEntriesTot" field.  This is the
     /// total number of entries in the input tree.
     int fInputFileEntries;
+
+    // The output EvtNum, which is rewritten from the original generator's
+    // EvtNum to be consistent with the EventId in EDepSimEvents
+    Int_t fEvtNum;
 };
 #endif
