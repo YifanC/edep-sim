@@ -33,6 +33,7 @@ private:
     G4UIcmdWithADoubleAndUnit* fGammaCutCMD;
     G4UIcmdWithADoubleAndUnit* fElectCutCMD;
     G4UIcmdWithADoubleAndUnit* fPosCutCMD;
+    G4UIcmdWithADoubleAndUnit* fProtCutCMD;
     G4UIcmdWithADoubleAndUnit* fAllCutCMD;
     G4UIcmdWithABool*          fIonizationModelCMD;
 

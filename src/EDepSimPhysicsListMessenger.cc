@@ -44,6 +44,15 @@ EDepSim::PhysicsListMessenger::PhysicsListMessenger(EDepSim::PhysicsList* pPhys)
     fPosCutCMD->SetDefaultUnit("mm");
     fPosCutCMD->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+    fProtCutCMD = new G4UIcmdWithADoubleAndUnit("/edep/phys/protonCut",
+                                               this);
+    fProtCutCMD->SetGuidance("Set proton cut");
+    fProtCutCMD->SetParameterName("Protcut",false);
+    fProtCutCMD->SetUnitCategory("Length");
+    fProtCutCMD->SetRange("Protcut>=0.0");
+    fProtCutCMD->SetDefaultUnit("mm");
+    fProtCutCMD->AvailableForStates(G4State_PreInit,G4State_Idle);
+
     fAllCutCMD = new G4UIcmdWithADoubleAndUnit("/edep/phys/allCuts",this);
     fAllCutCMD->SetGuidance("Set cut for all");
     fAllCutCMD->SetParameterName("cut",false);
@@ -63,6 +72,7 @@ EDepSim::PhysicsListMessenger::~PhysicsListMessenger() {
     delete fGammaCutCMD;
     delete fElectCutCMD;
     delete fPosCutCMD;
+    delete fProtCutCMD;
     delete fAllCutCMD;
     delete fIonizationModelCMD;
 }
@@ -81,11 +91,16 @@ void EDepSim::PhysicsListMessenger::SetNewValue(G4UIcommand* command,
         fPhysicsList->SetCutForPositron(fPosCutCMD
                                         ->GetNewDoubleValue(newValue));
     }
+    else if (command == fProtCutCMD) {
+        fPhysicsList->SetCutForProton(fProtCutCMD
+                                        ->GetNewDoubleValue(newValue));
+    }
     else if (command == fAllCutCMD) {
         G4double cut = fAllCutCMD->GetNewDoubleValue(newValue);
         fPhysicsList->SetCutForGamma(cut);
         fPhysicsList->SetCutForElectron(cut);
         fPhysicsList->SetCutForPositron(cut);
+        fPhysicsList->SetCutForProton(cut);
     }
     else if (command == fIonizationModelCMD) {
         G4double cut = fIonizationModelCMD->GetNewBoolValue(newValue);
